@@ -1,0 +1,5 @@
+flake8==3.7.8
+kopf==0.24
+azure-mgmt-applicationinsights==0.2.0
+azure-mgmt-resource>=2.1.0
+kubernetes==10.0.1

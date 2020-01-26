@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: app-insights-operator
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      application: app-insights-operator
+  template:
+    metadata:
+      labels:
+        application: app-insights-operator
+    spec:
+      serviceAccountName: app-insights-operator
+      containers:
+      - name: operator
+        image: chelnak/app-insights-operator

@@ -1,0 +1,13 @@
+.vscode
+media
+resources
+env
+.dockerignore
+.gitignore
+.git
+*.yml
+devsetup.ps1
+README.md
+azure-secret.txt
+azure-pipelines.yml
+GitVersion.yml

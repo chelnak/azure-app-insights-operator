@@ -1,0 +1,86 @@
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  namespace: "{{NAMESPACE}}"
+  name: app-insights-operator
+
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRole
+metadata:
+  name: app-insights-operator
+rules:
+
+  # Framework: knowing which other operators are running (i.e. peering).
+  - apiGroups: [zalando.org]
+    resources: [clusterkopfpeerings]
+    verbs: [list, watch, patch, get]
+  - apiGroups: [apiextensions.k8s.io]
+    resources: [customresourcedefinitions]
+    verbs: [list, get]
+
+  # Application: read-only access for watching cluster-wide.
+  - apiGroups: [chelnak.github.io]
+    resources: [applicationinsightsresources]
+    verbs: [list, watch]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: Role
+metadata:
+  namespace: "{{NAMESPACE}}"
+  name: app-insights-operator
+rules:
+
+  # Framework: knowing which other operators are running (i.e. peering).
+  - apiGroups: [zalando.org]
+    resources: [kopfpeerings]
+    verbs: [list, watch, patch, get]
+
+  # Framework: posting the events about the handlers progress/errors.
+  - apiGroups: [events.k8s.io]
+    resources: [events]
+    verbs: [create]
+  - apiGroups: [""]
+    resources: [events]
+    verbs: [create]
+
+  # Application: watching & handling for the custom resource we declare.
+  - apiGroups: [chelnak.github.io]
+    resources: [applicationinsightsresources]
+    verbs: [list, watch, patch]
+
+  # Application: other resources it produces and manipulates.
+  # Here, we create secrets, but we do not patch/update/delete them ever.
+  - apiGroups: [""]
+    resources: [secrets]
+    verbs: [create]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  name: app-insights-operator
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: app-insights-operator
+subjects:
+  - kind: ServiceAccount
+    name: app-insights-operator
+    namespace: "{{NAMESPACE}}"
+
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: RoleBinding
+metadata:
+  namespace: "{{NAMESPACE}}"
+  name: app-insights-operator
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: app-insights-operator
+subjects:
+  - kind: ServiceAccount
+    name: app-insights-operator

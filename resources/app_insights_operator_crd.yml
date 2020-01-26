@@ -1,0 +1,41 @@
+apiVersion: apiextensions.k8s.io/v1beta1
+kind: CustomResourceDefinition
+metadata:
+  name: applicationinsightsresources.chelnak.github.io
+spec:
+  scope: Namespaced
+  group: chelnak.github.io
+  versions:
+    - name: v1alpha1
+      served: true
+      storage: true
+  names:
+    kind: AzureApplicationInsights
+    plural: applicationinsightsresources
+    singular: applicationinsightsresource
+    shortNames:
+      - applicationinsights
+      - appinsights
+      - ai
+  additionalPrinterColumns:
+    - JSONPath: .spec.resourcegroup
+      name: RESOURCEGROUP
+      type: string
+    - JSONPath: .spec.location
+      name: LOCATION
+      type: string
+    - JSONPath: .status.create.instrumentationkey
+      name: INSTRUMENTATION-KEY
+      type: string
+  validation:
+    openAPIV3Schema:
+      type: object
+      properties:
+        spec:
+          type: object
+          properties:
+            location:
+              type: string
+            resourcegroup:
+              type: string
+          required: ["location", "resourcegroup"]
