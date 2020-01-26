@@ -1,3 +1,5 @@
+[![Build Status](https://craigg.visualstudio.com/Pipelines/_apis/build/status/azure-app-insights-operator?branchName=master)](https://craigg.visualstudio.com/Pipelines/_build/latest?definitionId=21&branchName=master)
+
 # Kubernetes Operator for Application Insights
 
 > :construction: This project is experimental and may contain bugs
