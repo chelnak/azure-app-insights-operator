@@ -49,9 +49,9 @@ steps:
       tags: $(build.buildnumber)
 
   - task: Docker@2
-    displayName: Push Image Production if master
+    displayName: Push latest tag if master
     condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/master'))
     inputs:
       command: push
       repository: $(IMAGE_NAME)
-      tags: master
+      tags: latest
