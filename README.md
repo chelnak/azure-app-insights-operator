@@ -6,13 +6,25 @@
 
 This is a Kuberetes operator for Azure Application insights. The goal of this operator is to aid in the development of .NET applications that use Applcation Insights for telemetry. It allows Application Insights to become a first class citizen inside the cluster and be configured and deployed alongside other Kubernetes resources.
 
-When an Application Insights resource is deployed to a cluster the folowing will happen:
+When an Application Insights resource is deployed to a cluster the following will happen:
 
 * A new Application Insights resource is deployed to the namespace that has been specified in the request.
-* A new application Insights resource is deployed in to Azure using the information provided in the `spec` section of the manifest.
-* An opaque secret is created that contains the instrumentation key of the deployed Application Insights resource. This can be linked to a deployment and consumed by your application.
+* A new Application Insights resource is deployed in to the Azure tenant/subscription specified in config and configured with the information provided in the `spec` section of the manifest.
+* An opaque secret is created in the same namespace that contains the instrumentation key of the deployed Application Insights resource. This can be linked to a deployment and consumed by your application.
 
-The operator has been writen with [KOPF](https://github.com/zalando-incubator/kopf) created by [zalando](https://www.zalando.co.uk/).
+A simple resource looks like this:
+
+```yaml
+apiVersion: chelnak.github.io/v1apha1
+kind: AzureApplicationInsights
+metadata:
+  name: k8s-test-ai
+spec:
+  resourcegroup: k8s-test-ai
+  location: westeurope
+```
+
+The operator was built with [KOPF](https://github.com/zalando-incubator/kopf) created by [zalando](https://www.zalando.co.uk/).
 
 ## Installation
 
@@ -60,18 +72,17 @@ kubectl get secrets -n engineering
 
 !["k8s-secret"](media/provisioned-secret.PNG)
 
-## Development
+## Configuration
 
-### Requirements
+The following table contains the environment variables required to use this operator.
 
-* python 3.8.1
-* virtualenv
-* docker
-* Azure App Registration with enough permission to create, update and remove App Insights resources and Resource Groups in a subscription.
-* Configure `devsetup.ps1`
+| Setting  | Required | Default |
+|----------|----------|---------|
+| AZURE_CLIENT_ID | Yes | Null |
+| AZURE_CLIENT_SECRET | Yes | Null |
+| AZURE_SUBSCRIPTION_ID | Yes | Null |
+| AZURE_TENANT_ID | Yes | Null |
 
-```bash
-virtualenv env
-devsetup.ps1
-kopf run .\operator\app_insights_operator.py --dev
-```
+### Azure App Registration
+
+The app registration used to configure the operator will need permission to create/update/delete resource groups and Applicatio insights instances in the subscription specified by `AZURE_SUBSCRIPTION_ID`.
