@@ -9,7 +9,7 @@ def create_namespaced_secret(instrumentation_key, name, namespace):
     encoded_instrumentation_key = b64encode(
         instrumentation_key.encode('utf8')).decode('utf8')
 
-    path = os.path.join(os.path.dirname(__file__), 'templates\\secret.yml')
+    path = os.path.join(os.path.dirname(__file__), 'templates/secret.yml')
     tmpl = open(path, 'rt').read()
     text = tmpl.format(
         name=name, instrumentationkey=encoded_instrumentation_key)
