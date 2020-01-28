@@ -38,4 +38,12 @@ spec:
               type: string
             resourcegroup:
               type: string
-          required: ["location", "resourcegroup"]
+            kind:
+              type: string
+              enum: [web, ios, other, store, java, phone]
+            application_type:
+              type: string
+              enum: [web, other]
+            sampling_percentage:
+              type: float
+          required: ["location", "resourcegroup", kind, application_type]
