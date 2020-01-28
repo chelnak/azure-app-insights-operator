@@ -22,6 +22,8 @@ metadata:
 spec:
   resourcegroup: k8s-test-ai
   location: westeurope
+  kind: web
+  application_type: web
 ```
 
 The operator was built with [KOPF](https://github.com/zalando-incubator/kopf) created by [zalando](https://www.zalando.co.uk/).
