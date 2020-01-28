@@ -17,4 +17,13 @@ spec:
       serviceAccountName: app-insights-operator
       containers:
       - name: operator
-        image: chelnak/app-insights-operator
+        image: chelnak/app-insights-operator:latest
+        env:
+        - name: AZURE_CLIENT_ID
+          value: [YOUR CLIENT ID]
+        - name: AZURE_CLIENT_SECRET
+          value: [YOUR CLIENT SECRET]
+        - name: AZURE_SUBSCRIPTION_ID
+          value: [YOUR SUBSCRIPTION ID]
+        - name: AZURE_TENANT_ID
+          value: [YOUR TENANT ID]
