@@ -31,43 +31,43 @@ The operator was built with [KOPF](https://github.com/zalando-incubator/kopf) cr
 1. Install the default kopf peerings
 
 ```bash
-kubectl apply -f resources/kopf-peering.yml -n engineering
+kubectl apply -f resources/kopf-peering.yml
 ```
 
 2. Install custom resource definitions for the operator
 
 ```bash
-kubectl apply -f resourcs/app_insights_operator_crd.yml -n engineering
+kubectl apply -f resourcs/app_insights_operator_crd.yml
 ```
 
 3. Configure rbac for the operator
 
 ```bash
-kubectl apply -f resourcs/app_insights_operator_rbac.yml -n engineering
+kubectl apply -f resourcs/app_insights_operator_rbac.yml
 ```
 
 4. Deploy the operator
 
 ```bash
-kubectl apply -f resourcs/app_insights_operator_deployment.yml -n engineering
+kubectl apply -f resourcs/app_insights_operator_deployment.yml
 ```
 
 5. Deploy a test App Insights resource
 
 ```bash
-kubectl apply -f resourcs/app_insights_resource.yml -n engineering
+kubectl apply -f resourcs/app_insights_resource.yml
 ```
 
 6. Validate the existence of the new resources:
 
 ```bash
-kubectl get ai -n engineering
+kubectl get ai
 ```
 
 !["k8s-resource"](media/provisioned-resource.PNG)
 
 ```bash
-kubectl get secrets -n engineering
+kubectl get secrets
 ```
 
 !["k8s-secret"](media/provisioned-secret.PNG)
