@@ -1,7 +1,9 @@
-apiVersion: chelnak.github.io/v1apha1
+apiVersion: chelnak.github.io/v1alpha1
 kind: AzureApplicationInsights
 metadata:
   name: cg-test-ai
 spec:
   resourcegroup: cg-test-ai
   location: westeurope
+  kind: web
+  application_type: web
