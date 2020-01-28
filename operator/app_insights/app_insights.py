@@ -2,12 +2,11 @@ from utilities import utilities
 from azure.mgmt.resource import ResourceManagementClient
 from azure.mgmt.applicationinsights import ApplicationInsightsManagementClient
 from azure.mgmt.applicationinsights.models import (
-    ApplicationInsightsComponent,
-    ApplicationType
+    ApplicationInsightsComponent
 )
 
 
-def create_or_update(resource_group_name, resource_name, location, tags):
+def create_or_update(resource_name, resource_group_name, location, tags, spec):
 
     credentials, subscription_id = utilities.get_credentials()
 
@@ -21,7 +20,7 @@ def create_or_update(resource_group_name, resource_name, location, tags):
         subscription_id
     )
 
-    resource_group_params = {'location': location, 'tags': tags}
+    resource_group_params = {'location': location}
     resource_mangemnt_client.resource_groups.create_or_update(
         resource_group_name,
         resource_group_params
@@ -32,9 +31,8 @@ def create_or_update(resource_group_name, resource_name, location, tags):
         resource_name,
         ApplicationInsightsComponent(
             location=location,
-            kind="web",
-            application_type=ApplicationType.web,
-            tags=tags
+            tags=tags,
+            **spec
         )
     )
 
