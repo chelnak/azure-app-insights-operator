@@ -13,7 +13,7 @@ trigger:
 pr: none
 
 pool:
-  vmImage: 'Ubuntu-16.04'
+  vmImage: 'cg-ubuntu-2004'
 
 variables:
   IMAGE_NAME: chelnak/app-insights-operator
